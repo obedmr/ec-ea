@@ -12,10 +12,12 @@ def es_mutate_steps(steps, p):
     for idx,step in enumerate(steps):
         new_step = step * np.exp( (t1 * common.gaussian(0,1))
                                  + (t2 * common.gaussian(0,1)) )
-        #if new_step < -30 or new_step > 30:
-        #    new_step = step
-            
-        new_steps.append(new_step * p)
+
+        sigma = new_step * p
+        if sigma > 2:
+            sigma = sigma % 2
+        sigma = 1 - sigma
+        new_steps.append(sigma)
     return new_steps
 
     
@@ -25,16 +27,11 @@ def es_mutate_individual(individual, steps, minmax):
 
     mutated_idx = random.randint(0,len(data))
 
-    #print("steps: ", steps)
     for idx,value in enumerate(data):
         if mutated_idx == idx:
             new_value = value + (steps[idx] * common.gaussian(0,1))
         else:
             new_value = value
-        #if new_value > minmax[1]: 
-        #    new_value = minmax[0]
-        #if new_value < minmax[0]:
-        #    new_value = minmax[1]
         new_data.append(common.round(new_value))
 
     return (new_data, steps)

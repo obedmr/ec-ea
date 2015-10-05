@@ -35,16 +35,15 @@ def evolutionary_strategies(args):
             best_fitness = fitness
             solution = mutated
             p = 1.5
-            common.write_data(gen, fitness, 'es.dat')
         #elif fitness == best_fitness:
         #    p = 1
         else:
             p = 1.5 ** (-1/4)
-            
+        common.write_data(gen, fitness, 'es.dat')
         if fitness == 0:
             break
     
-    common.plot('Auckey_with_Evolution_Srategies', 'es.dat')
+    common.plot('Auckey_with_Evolution_Strategies', 'es.dat')
 
 def genetic_algorithm(args):
 
