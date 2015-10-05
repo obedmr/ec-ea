@@ -38,4 +38,8 @@ def fitness(data, c1=20.0, c2=0.2, c3=2*math.pi):
         sum2 += math.cos(c3 * value)
 
     result = -c1 * np.exp(-c2 * np.sqrt(sum1 / N)) - np.exp(sum2 / N) + c1  + math.e
+    #print(sum1,sum2,result)
+    #result = 0
+    #for value in data:
+    #    result += value ** 2
     return round(result) 
