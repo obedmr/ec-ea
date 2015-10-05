@@ -21,9 +21,8 @@ def evolutionary_strategies(args):
     p = 1.5
     
     for gen in range(1, gens):
-        #print("Generation :#%d" % gen)
-        #if gen % 10 == 0:
-        #    print("Generation :#%d" % gen)
+        if gen % 10 == 0:
+            print("Generation :#%d" % gen)
 
         mutated = mutation.es_mutation(solution, minmax, p)
         #print(solution[0])
@@ -36,6 +35,7 @@ def evolutionary_strategies(args):
             best_fitness = fitness
             solution = mutated
             p = 1.5
+            common.write_data(gen, fitness, 'es.dat')
         #elif fitness == best_fitness:
         #    p = 1
         else:
@@ -43,18 +43,44 @@ def evolutionary_strategies(args):
             
         if fitness == 0:
             break
-
-        common.write_data(gen, fitness, 'es.dat')
     
     common.plot('Auckey_with_Evolution_Srategies', 'es.dat')
+
+def genetic_algorithm(args):
+
+    minmax = (args.min, args.max)
+    N = args.N
+    gens = args.gens
+
+    solution = common.initialize(N,minmax)
+    best_fitness = common.fitness(solution[0])
+
+    for gen in range(1, gens):
+        if gen % 10 == 0:
+            print("Generation :#%d" % gen)
+
+        mutated = mutation.ga_mutation(solution, minmax)
+        fitness = common.fitness(mutated[0])
+
+        if fitness <= best_fitness:
+            best_fitness = fitness
+            solution = mutated
+            common.write_data(gen, fitness, 'ga.dat')
+
+        if fitness == 0:
+            break
+    
+    common.plot('Auckey_with_Genetic_Algorithm', 'ga.dat')
     
 def main(args):
     try:
         os.remove('es.dat')
+        #os.remove('ga.dat')
     except Exception:
         pass
 
     evolutionary_strategies(args)
+    #genetic_algorithm(args)
 
 
 

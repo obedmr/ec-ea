@@ -47,4 +47,14 @@ def es_mutation(individual, minmax, p):
 
 
 def ga_mutation(individual, minmax):
-    pass
+    mutated = []
+    mutation_idx = random.randint(0, len(individual[0])-1)
+    mutation_delta =  round(random.uniform(-1,1),3)
+    for idx,value in enumerate(individual[0]):
+        if idx == mutation_idx:
+            new_value = value + mutation_delta
+        else:
+            new_value = value
+        mutated.append(new_value)
+    return (mutated,None)
+

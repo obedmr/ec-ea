@@ -9,7 +9,7 @@ from pylab import *
 
 def initialize(population, minmax):
     minmax_diff = minmax[1] - minmax[0]
-    values = [float("%.2f" % x)
+    values = [round(x)
               for x in np.random.ranf(population) * minmax_diff - minmax[1]]
     steps = [float("%.2f" % x)
               for x in np.random.ranf(population)]
