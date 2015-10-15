@@ -18,14 +18,6 @@ def initialize(population, minmax):
 
 def gaussian(mean, stdv):
     return np.random.normal(mean, stdv)
-    #u1 = u2 = w = 1
-    #while(w >= 1): 
-    #    u1 = 2 * np.random.uniform() - 1
-    #    u2 = 2 * np.random.uniform() - 1
-    #    w = u1 * u1 + u2 * u2
-    #     
-    #w = np.sqrt((-2.0 * np.log(w)) / w)
-    #return round(mean + (u2 * w) * stdv)
 
 
 def round(value):
@@ -84,5 +76,5 @@ def plot(title_str, filename):
     title(title_str)
     grid(True)
     
-    savefig('%s.png'% title_str)
+    savefig('%s.png'% title_str.replace(':', '').replace(' ', '_'))
     

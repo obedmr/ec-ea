@@ -43,8 +43,16 @@ def evolutionary_strategies(args):
         
         if fitness == 0:
             break
+
+    print("#########################")
+    print("# Strategy              : Evolutionary Strategies")
+    print("# Generations           : " + str(gens))
+    print("# Best Solution Fitness : %.3f" % best_fitness)
+    print("# Log File              : ./es.dat")
+    print("# Graph                 : Evolutionary_Strategies_Ackleys_Function.png")
+    print("#########################")
     
-    common.plot('Auckey_with_Evolution_Strategies', 'es.dat')
+    common.plot('Evolutionary Strategies: Ackleys Function', 'es.dat')
 
 def genetic_algorithm(args):
 
@@ -69,19 +77,32 @@ def genetic_algorithm(args):
 
         if fitness == 0:
             break
+
+    print("#########################")
+    print("# Strategy              : Genetic Algorithms")
+    print("# Generations           : " + str(gens))
+    print("# Best Solution Fitness : %.3f" % best_fitness)
+    print("# Log File              : ./ga.dat")
+    print("# Graph                 : Genetic_Algorithm_Ackleys_Function.png")
+    print("#########################")
     
-    common.plot('Auckey_with_Genetic_Algorithm', 'ga.dat')
+    common.plot('Genetic Algorithm: Ackleys Function', 'ga.dat')
     
 def main(args):
-    try:
-        os.remove('es.dat')
-        #os.remove('ga.dat')
-    except Exception:
-        pass
 
-    evolutionary_strategies(args)
-    #genetic_algorithm(args)
-
+    if args.strategy == 'ga':
+        data_file = 'ga.dat'
+        if os.path.isfile(data_file):
+            os.remove(data_file)
+        genetic_algorithm(args)
+    elif args.strategy == 'es':
+        data_file = 'es.dat'
+        if os.path.isfile(data_file):
+            os.remove(data_file)
+        evolutionary_strategies(args)
+    else:
+        print("Invalid Strategy, you can only choose 'ga' (Genetic Algorithms)"
+              " or 'es' (Evolutionary Strategies)")
 
 
 if __name__ == '__main__':
@@ -92,6 +113,7 @@ if __name__ == '__main__':
     parser.add_argument("--max", help="Maximum value", type=int)
     parser.add_argument('-g', "--generations", help="Number of Generations",
                         dest='gens', type=int)
+    parser.add_argument("--strategy", help="Strategy [ga|es]", type=str)
 
     args = parser.parse_args()
     
