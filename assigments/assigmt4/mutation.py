@@ -34,14 +34,13 @@ def es_mutate_population(population, steps, minmax):
     data = population[0]
     new_data = []
 
-    mutation_idx = random.randint(0, len(population))
+    #mutation_idx = random.randint(0, len(population))
     
     for idx,value in enumerate(data):
-        if idx == mutation_idx:
-            new_value = value + (steps[idx] * common.gaussian(0,1))
-            new_value = value % minmax[1]
-        else:
-            new_value =  value
+        new_value = value + (steps[idx] * common.gaussian(0,1))
+        # Make sure mutated value no over passes max limit
+        # We're not using negative values
+        new_value = value % minmax[1]
         new_data.append(common.round(abs(new_value)))
 
     return (new_data, steps)

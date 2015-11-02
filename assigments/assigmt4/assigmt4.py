@@ -16,7 +16,6 @@ def evolutionary_strategies(args):
     gens = args.gens
 
     population = common.initialize(N,minmax)
-    print(population[0])
     fittest, best_fitness = common.fittest(population[0],
                                            args.fitness)
 
