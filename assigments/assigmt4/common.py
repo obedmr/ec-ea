@@ -10,11 +10,20 @@ from pylab import *
 def initialize(population, minmax):
     minmax_diff = minmax[1] - minmax[0]
     values = [round(x)
-              for x in np.random.ranf(population) * minmax_diff - minmax[1]]
-    steps = [float("%.2f" % x)
+              for x in np.random.ranf(population) * minmax[1]]
+    steps = [float("%.3f" % x)
               for x in np.random.ranf(population)]
     return values, steps
-    
+
+
+def get_minmax(function):
+    # Functions f2, f3
+    minmax = 0 , 20
+    if function == 'f5':
+        minmax = 0 , 1
+        
+    return minmax
+
 
 def gaussian(mean, stdv):
     return np.random.normal(mean, stdv)
@@ -24,20 +33,39 @@ def round(value):
     return float('%.3f' % value)
 
 
-def fitness(data, c1=20.0, c2=0.2, c3=2*math.pi):
-    sum1 = 0.0
-    sum2 = 0.0
-    N = len(data)
-    for value in data:
-        sum1 += value ** 2.0
-        sum2 += math.cos(c3 * value)
+def fitness(x, function):
+    result = 0
+    if function == 'f2':
+        if x >= 0 and x < 15:
+            result = ( 160 * (15 - x) ) / 15
+        if x >= 15 and x <= 20:
+            result = ( 200 * (x - 15) ) / 5
+    elif function == 'f3':
+        if x >= 0 and x < 10:
+            result = ( 160 * x ) / 10
+        if x >= 10 and x < 15:
+            result = ( 160 * ( 15 - x ) ) / 5
+        if x >= 15 and x <= 20:
+            result = ( 200 * ( x - 15 ) ) / 5
+    elif function == 'f5':
+        if x >= 0 and x <= 1:
+            result = math.sin( 5 * math.pi * x ) ** 6
 
-    result = -c1 * np.exp(-c2 * np.sqrt(sum1 / N)) - np.exp(sum2 / N) + c1  + math.e
-    #print(sum1,sum2,result)
-    #result = 0
-    #for value in data:
-    #    result += value ** 2
-    return round(result) 
+    return result 
+
+
+def fittest(poblation, function):
+    fittest = 0
+    best_fitness = 0
+
+    for value in poblation:
+        local_fitness = fitness(value, function)
+        if local_fitness >= best_fitness:
+            best_fitness = local_fitness
+            fittest = value
+
+    return fittest, best_fitness
+
 
 def write_data(generation, fitness, filename):
     f = open(filename, 'a')
@@ -77,4 +105,4 @@ def plot(title_str, filename):
     grid(True)
     
     savefig('%s.png'% title_str.replace(':', '').replace(' ', '_'))
-    
+    plt.clf()

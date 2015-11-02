@@ -30,26 +30,27 @@ def es_mutate_steps(steps, p):
     return new_steps
 
     
-def es_mutate_individual(individual, steps, minmax):
-    data = individual[0]
+def es_mutate_population(population, steps, minmax):
+    data = population[0]
     new_data = []
 
-    mutated_idx = random.randint(0,len(data))
-
+    mutation_idx = random.randint(0, len(population))
+    
     for idx,value in enumerate(data):
-        if mutated_idx == idx:
+        if idx == mutation_idx:
             new_value = value + (steps[idx] * common.gaussian(0,1))
+            new_value = value % minmax[1]
         else:
-            new_value = value
-        new_data.append(common.round(new_value))
+            new_value =  value
+        new_data.append(common.round(abs(new_value)))
 
     return (new_data, steps)
     
 
-def es_mutation(individual, minmax, p):
-    new_steps = es_mutate_steps(individual[1], p)
-    new_individual = es_mutate_individual(individual, new_steps, minmax)
-    return new_individual
+def es_mutation(population, minmax, p):
+    new_steps = es_mutate_steps(population[1], p)
+    new_population = es_mutate_population(population, new_steps, minmax)
+    return new_population
 
 
 def ga_mutation(individual, minmax):
