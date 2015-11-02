@@ -67,6 +67,16 @@ def fittest(poblation, function):
     return fittest, best_fitness
 
 
+def exchange(plist, nexchange):
+    new_plist = []
+    for i in range(0, nexchange):
+        ind_idx = np.random.randint(1, len(plist[0][0]) - 1)
+        for idx,population in enumerate(plist):
+            new_plist.append(population)
+            new_plist[idx][0][ind_idx] = population[0][ind_idx]
+            
+    return new_plist
+
 def write_data(generation, fitness, filename):
     f = open(filename, 'a')
     f.write('%d, %.3f\n' % (generation, fitness))

@@ -14,44 +14,65 @@ def evolutionary_strategies(args):
     minmax = common.get_minmax(args.fitness)
     N = args.N
     gens = args.gens
+    population_exchange = args.exchange
+    exchange_individuals = args.iexchange
+    islands = args.islands
 
-    population = common.initialize(N,minmax)
-    fittest, best_fitness = common.fittest(population[0],
-                                           args.fitness)
+    population_list = []
+    fittest_list = []
+    best_fitness_list = []
+    
+    for i in range(0,islands):
+        population = common.initialize(N,minmax)
+        fittest, best_fitness = common.fittest(population[0],
+                                               args.fitness)
+        population_list.append(population)
+        fittest_list.append(fittest)
+        best_fitness_list.append(best_fitness)
 
-    p = 0
-    successful_cases = 0
+    p_list = [0] * islands
+    successful_cases_list = [0] * islands
     
     for gen in range(1, gens):
         if gen % (gens / 10) == 0:
             print("Generation :#%d" % gen)
 
-        mutated = mutation.es_mutation(population, minmax, p)
+        if gen % population_exchange == 0:
+            print(" -> Exchange in Generation: %d " % gen)
+            population_list = common.exchange(population_list,
+                                              exchange_individuals)
         
-        local_fittest, fitness = common.fittest(mutated[0],
-                                                args.fitness)
+        mutated = [[]] * islands
+        local_fittest = [0] * islands
+        fitness = [0] * islands
+        for i in range(0, islands):
+            mutated[i] = mutation.es_mutation(population_list[i],
+                                              minmax, p_list[i])
 
-        if fitness >= best_fitness:
-            fittest = local_fittest
-            best_fitness = fitness
-            population = mutated
-            successful_cases += 1
-        common.write_data(gen, fitness, 'es.dat')
+            local_fittest[i], fitness[i] = common.fittest(mutated[i][0],
+                                                          args.fitness)
+            
+            if fitness[i] >= best_fitness_list[i]:
+                fittest_list[i] = local_fittest[i]
+                best_fitness_list[i] = fitness[i]
+                successful_cases_list[i] += 1
+                population = mutated
+                common.write_data(gen, fitness[i], 'es%d.dat' % i)
 
-        p = successful_cases / gen
+            p_list[i] = successful_cases_list[i] / gen
 
     print("#########################")
     print("# Strategy              : Evolutionary Strategies")
     print("# Generations           : " + str(gens))
-    print("# Best Solution Value   : %.3f" % fittest)
-    print("# Best Solution Fitness : %g" % best_fitness)
-    print("# Log File              : ./es.dat")
-    print("# Graph                 : Evolutionary_Strategies_%s.png" %
-          args.fitness.upper())
+    #print("# Best Solution Value   : %.3f" % fittest)
+    #print("# Best Solution Fitness : %g" % best_fitness)
+    #print("# Log File              : ./es.dat")
+    #print("# Graph                 : Evolutionary_Strategies_%s.png" %
+    #      args.fitness.upper())
     print("#########################")
     
-    common.plot('Evolutionary Strategies %s' % args.fitness.upper(),
-                'es.dat')
+    #common.plot('Evolutionary Strategies %s' % args.fitness.upper(),
+    #            'es.dat')
 
 # (WORK in PROGRESS) Function (Don't use it)
 def genetic_algorithm(args):
@@ -118,6 +139,12 @@ if __name__ == '__main__':
                         dest='N', type=int)
     parser.add_argument('-g', "--generations", help="Number of Generations",
                         dest='gens', type=int)
+    parser.add_argument("--exchange", help="How often exchange populations",
+                        dest='exchange', type=int)
+    parser.add_argument("--iexchange", help="How many individual to exchange",
+                        dest='iexchange', type=int)
+    parser.add_argument("-i", "--islands", help="How many Parallel Islands",
+                        dest='islands', type=int)
     parser.add_argument("--strategy", help="Strategy [ga|es]", type=str)
     parser.add_argument("-f", "--fitness", help="Fitness Function [f2|f3|f5]", type=str)
     
