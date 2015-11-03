@@ -64,15 +64,26 @@ def evolutionary_strategies(args):
     print("#########################")
     print("# Strategy              : Evolutionary Strategies")
     print("# Generations           : " + str(gens))
-    #print("# Best Solution Value   : %.3f" % fittest)
-    #print("# Best Solution Fitness : %g" % best_fitness)
-    #print("# Log File              : ./es.dat")
-    #print("# Graph                 : Evolutionary_Strategies_%s.png" %
-    #      args.fitness.upper())
+
+    fittest = 0
+    best_fitness = 0
+    best_island = 0
+    for i in range(0, islands):
+        if best_fitness_list[i] > best_fitness:
+            fittest = fittest_list[i]
+            best_fitness = best_fitness_list[i]
+            best_island = i
+
+    print("# Best Solution Value   : %.3f" % fittest)
+    print("# Best Solution Fitness : %g" % best_fitness)
+    print("# Obtained from  Island : %d" % best_island)
+    print("# Log File              : ./es%d.dat" % best_island)
+    print("# Graph                 : Evolutionary_Strategies_%s.png" %
+          args.fitness.upper())
     print("#########################")
     
-    #common.plot('Evolutionary Strategies %s' % args.fitness.upper(),
-    #            'es.dat')
+    common.plot('Evolutionary Strategies %s' % args.fitness.upper(),
+                'es%d.dat' % best_island)
 
 # (WORK in PROGRESS) Function (Don't use it)
 def genetic_algorithm(args):
