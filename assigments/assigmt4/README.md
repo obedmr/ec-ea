@@ -22,7 +22,7 @@ How to make it work:
 
 1. Let's play with it ...
    ```
-      $ ./assigmt4.py -n 100 -g 1000 --exchange 20 --iexchange 5 -i 10 --strategy es -f f
+      $ ./assigmt4.py -n 100 -g 1000 --exchange 20 --iexchange 5 -i 10 --strategy es -f f3
 
       # output
        -> Exchange in Generation: 0
