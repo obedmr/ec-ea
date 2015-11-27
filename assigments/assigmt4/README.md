@@ -22,35 +22,39 @@ How to make it work:
 
 1. Let's play with it ...
    ```
-      $ ./assigmt4.py -n 5 -g 100 -i 5 --iexchange 3 --exchange 100 --strategy es -f f2
+      $ ./assigmt4.py -n 100 -g 1000 --exchange 20 --iexchange 5 -i 10 --strategy es -f f
 
       # output
+       -> Exchange in Generation: 0
+       -> Exchange in Generation: 20
+       -> Exchange in Generation: 40
+       -> Exchange in Generation: 60
+       -> Exchange in Generation: 80
       Generation :#100
-       -> Exchange in Generation: 100
-      Generation :#200
-       -> Exchange in Generation: 200
-      Generation :#300
-       -> Exchange in Generation: 300
-      Generation :#400
-       -> Exchange in Generation: 400
-      Generation :#500
-       -> Exchange in Generation: 500
-      Generation :#600
-       -> Exchange in Generation: 600
-      Generation :#700
-       -> Exchange in Generation: 700
+      .
+      .
+      .
       Generation :#800
        -> Exchange in Generation: 800
+       -> Exchange in Generation: 820
+       -> Exchange in Generation: 840
+       -> Exchange in Generation: 860
+       -> Exchange in Generation: 880
       Generation :#900
        -> Exchange in Generation: 900
+       -> Exchange in Generation: 920
+       -> Exchange in Generation: 940
+       -> Exchange in Generation: 960
+       -> Exchange in Generation: 980		
       #########################
       # Strategy              : Evolutionary Strategies
       # Generations           : 1000
-      # Best Solution Value   : 19.883
-      # Best Solution Fitness : 195.32
-      # Obtained from  Island : 0
-      # Log File              : ./es0.dat
-      # Graph                 : Evolutionary_Strategies_F2.png
+      # Best Solution Value   : 19.993
+      # Best Solution Fitness : 199.72
+      # Obtained from  Island : 3
+      # Log File              : ./es3.dat
+      # Graph                 : Evolutionary_Strategies_F3.png
+      #########################
    ```
 
 2. Need help in command options...?
