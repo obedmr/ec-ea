@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
+import glob
 import numpy as np
 import operator
 import os
@@ -57,7 +58,8 @@ def evolutionary_strategies(args):
                 best_fitness_list[i] = fitness[i]
                 successful_cases_list[i] += 1
                 population = mutated
-                common.write_data(gen, fitness[i], 'es%d.dat' % i)
+                
+            common.write_data(gen, fitness[i], 'es%d.dat' % i)
 
             p_list[i] = successful_cases_list[i] / gen
 
@@ -84,6 +86,11 @@ def evolutionary_strategies(args):
     
     common.plot('Evolutionary Strategies %s' % args.fitness.upper(),
                 'es%d.dat' % best_island)
+
+    files = []
+    for island in range(0, islands):
+        common.plot('Evolutionary Strategies %s_islands' % args.fitness.upper(),
+                    'es%d.dat' % island, False)
 
 # (WORK in PROGRESS) Function (Don't use it)
 def genetic_algorithm(args):
@@ -122,6 +129,10 @@ def main(args):
     fitness_functions = ['f2', 'f3', 'f5']
     fitness = args.fitness
 
+    # clealing data files
+    data_files = glob.glob("*.dat")
+    for file in data_files:
+        os.remove(file)
     if fitness not in fitness_functions:
         print("You haven't specified the correct Fitness Functions")
         print("Available Functions: ")

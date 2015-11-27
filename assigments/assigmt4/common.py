@@ -68,14 +68,17 @@ def fittest(poblation, function):
 
 
 def exchange(plist, nexchange):
-    new_plist = []
     for i in range(0, nexchange):
         ind_idx = np.random.randint(1, len(plist[0][0]) - 1)
-        for idx,population in enumerate(plist):
-            new_plist.append(population)
-            new_plist[idx][0][ind_idx] = population[0][ind_idx]
+        first_data = plist[0][0][ind_idx]
+        for idx,population in enumerate(plist[:-1]):
+            prev_data = plist[idx][0][ind_idx]
+            plist[idx][0][ind_idx] = plist[idx + 1][0][ind_idx]
+            plist[idx + 1][0][ind_idx] = prev_data
             
-    return new_plist
+        plist[-1][0][ind_idx] =  first_data
+
+    return plist
 
 def write_data(generation, fitness, filename):
     f = open(filename, 'a')
@@ -83,7 +86,7 @@ def write_data(generation, fitness, filename):
     f.close()
 
 
-def plot(title_str, filename):
+def plot(title_str, filename, clean=True):
     # Read the file.
     f2 = open(filename, 'r')
     # read the whole file into a single variable,
@@ -115,4 +118,6 @@ def plot(title_str, filename):
     grid(True)
     
     savefig('%s.png'% title_str.replace(':', '').replace(' ', '_'))
-    plt.clf()
+    
+    if clean: 
+        plt.clf()
