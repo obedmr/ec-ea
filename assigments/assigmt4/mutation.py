@@ -40,7 +40,7 @@ def es_mutate_population(population, steps, minmax):
         new_value = value + (steps[idx] * common.gaussian(0,1))
         # Make sure mutated value no over passes max limit
         # We're not using negative values
-        new_value = value % minmax[1]
+        new_value = new_value % minmax[1]
         new_data.append(common.round(abs(new_value)))
 
     return (new_data, steps)
